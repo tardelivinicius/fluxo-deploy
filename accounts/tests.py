@@ -1,5 +1,4 @@
-from django.utils import timezone
-from rest_framework.test import APIClient, APITransactionTestCase
+from rest_framework.test import APITransactionTestCase
 from rest_framework import status
 from accounts.models import User
 
