@@ -3,6 +3,8 @@ name: Review PR and Staging merge
 # Ao abrir uma PR, o código será testado e caso estiver correto, será feito o merge automático na branch staging
 on:
   pull_request:
+    branches:
+      - staging
     types: [opened, synchronize]
 
 jobs:
@@ -24,27 +26,15 @@ jobs:
           pip install pipenv
 
       - name: Install dependencies
-        run: pipenv install
+        run: |
+          pipenv install
+          pip install flake8
 
-      - name: List Changed Files
-        id: list-files
-        run: |
-          echo "Arquivos alterados:"
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
-          cat changed_files.txt
+      - name: Syntax check
+        run: flake8 --exclude=migrations .
 
-      - name: Determine Changed Folders
-        id: determine-folders
-        run: |
-          changed_files=$(cat changed_files.txt)
-          changed_folders=()
-          for file in $changed_files; do
-              folder=$(dirname "$file")
-              changed_folders+=("$folder")
-          done
-          echo "::set-output name=changed-folders::${changed_folders[*]}"
-      
-      - name: Print Changed Folders
-        run: |
-          echo "Pastas alteradas:"
-          echo "${{ steps.determine-folders.outputs.changed-folders }}"
+      - name: Merge em staging
+        uses: ridedott/merge-me-action@v2
+        if: success()
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
