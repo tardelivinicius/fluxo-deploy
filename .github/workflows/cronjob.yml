@@ -2,7 +2,7 @@ name: Staging test and merge
 
 on:
   schedule:
-    - cron: '25 19 * * *'
+    - cron: '30 19 * * *'
 
 jobs:
   testes-e-migracao:
@@ -23,8 +23,6 @@ jobs:
       - name: Executar testes Python
         run: |
           docker pull mariadb:10.4
-          docker stop mariadbtest
-          docker rm mariadbtest
           docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
           python manage.py test --keepdb -v=2
 
