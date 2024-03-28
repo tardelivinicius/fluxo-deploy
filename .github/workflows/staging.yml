@@ -5,8 +5,21 @@ on:
   pull_request:
     branches:
       - staging
-    types: [opened, synchronize]
-
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
 jobs:
   test-and-merge:
     runs-on: ubuntu-latest
@@ -33,8 +46,13 @@ jobs:
       - name: Syntax check
         run: flake8 --exclude=migrations .
 
-      - name: automerge
-        id: automerge
-        uses: "pascalgn/automerge-action@v0.16.2"
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.6"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: feedback
+        if: ${{ steps.automerge.outputs.mergeResult == 'merged' }}
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
