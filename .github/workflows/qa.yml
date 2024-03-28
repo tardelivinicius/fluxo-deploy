@@ -1,0 +1,15 @@
+name: Meu Workflow Agendado
+
+on:
+  schedule:
+    - cron: '32 23 * * 3' # Executa toda sexta-feira ao meio-dia
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verificar código
+        run: echo "Verificando código..."
+
+      # Adicione outras etapas do seu workflow aqui
