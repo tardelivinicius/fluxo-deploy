@@ -3,6 +3,8 @@ name: Review PR and Staging merge
 # Ao abrir uma PR, o código será testado e caso estiver correto, será feito o merge automático na branch staging
 on:
   pull_request:
+    branches:
+      - staging
     types: [opened, synchronize]
 
 jobs:
