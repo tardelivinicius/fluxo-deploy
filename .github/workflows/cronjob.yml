@@ -1,39 +1,16 @@
-name: Staging test and merge
-
-on:
+name: Experiment
+on: 
   schedule:
-    - cron: '00 13 * * 5'
+  - cron: '*/5 * * * *'
 
 jobs:
-  testes-e-migracao:
+  job1:
+    name: Debug
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checar código
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'  # Especifique a versão do Python que você está usando
-
-      - name: Instalar dependências
-        run: pip install -r requirements.txt  # Substitua requirements.txt pelo arquivo de requisitos do seu projeto
-
-      # - name: Executar testes Python
-      #   run: python run_tests.py  # Substitua run_tests.py pelo script que executa seus testes Python
-
-      - name: Criar nova branch
-        run: |
-          git checkout -b qa-$(date +'%Y-%m-%d')
-          git push origin qa-$(date +'%Y-%m-%d')
-
-      - name: Criar Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: 'Merge staging into nova-branch'
-          title: 'Merge staging into nova-branch'
-          body: 'Automatically created pull request to merge staging into nova-branch'
-          branch: qa-$(date +'%Y-%m-%d')
-          base: staging
-          token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Git checkout
+      uses: actions/checkout@v2
+      with: { ref: debug }
+    - name: List files
+      run: ls
