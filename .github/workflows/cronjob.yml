@@ -15,13 +15,18 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  # Especifique a versão do Python que você está usando
+          python-version: '3.10'
 
       - name: Instalar dependências
         run: pip install -r requirements.txt
 
       - name: Executar testes Python
-        run: python manage.py tests
+        run: |
+          docker pull mariadb:10.4
+          docker stop mariadbtest
+          docker rm mariadbtest
+          docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
+          python manage.py test --keepdb -v=2
 
       - name: Criar nova branch
         id: create_branch
