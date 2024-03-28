@@ -2,7 +2,7 @@ name: Staging test and merge
 
 on:
   schedule:
-    - cron: '18 20 * * *'
+    - cron: '42 20 * * *'
 
 jobs:
   testes-e-migracao:
@@ -32,6 +32,12 @@ jobs:
           git checkout -b qa-$(date +'%Y%m%d') staging
           git push origin qa-$(date +'%Y%m%d')
           
-      # - name: Deploy
-      #   run: | 
-      #   zappa update x
+      - name: Criar Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: 'Merge staging into nova-branch'
+          title: 'Merge staging into nova-branch'
+          body: 'Automatically created pull request to merge staging into nova-branch'
+          branch: ${{ steps.create_branch.outputs.branch_name }}
+          base: staging
+          token: ${{ secrets.GITHUB_TOKEN }}
