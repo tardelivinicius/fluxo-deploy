@@ -46,16 +46,3 @@ jobs:
       - name: Syntax check
         id: linter
         run: flake8 --exclude=migrations .
-
-      - name: Comment on pull request if linting is successful
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'O linter foi executado com sucesso!'
-            })
