@@ -2,7 +2,7 @@ name: Staging test and merge
 
 on:
   schedule:
-    - cron: '35 19 * * *'
+    - cron: '52 19 * * *'
 
 jobs:
   testes-e-migracao:
