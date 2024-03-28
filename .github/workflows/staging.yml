@@ -28,25 +28,24 @@ jobs:
       - name: Install dependencies
         run: pipenv install
 
-      - name: List Changed Files
-        id: list-files
+      - name: List changed files
         run: |
-          echo "Arquivos alterados:"
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+          git diff --name-only HEAD ${{ github.sha }} > changed_files.txt
           cat changed_files.txt
+        id: list-files
 
-      - name: Determine Changed Folders
-        id: determine-folders
+      - name: Determine module
+        id: determine-module
         run: |
           changed_files=$(cat changed_files.txt)
-          changed_folders=()
-          for file in $changed_files; do
-              folder=$(dirname "$file")
-              changed_folders+=("$folder")
-          done
-          echo "::set-output name=changed-folders::${changed_folders[*]}"
-      
-      - name: Print Changed Folders
+          module=$(echo $changed_files | grep -oP '(\w+)/\w+')
+          echo $module > module.txt
+
+      - name: Run module tests
         run: |
-          echo "Pastas alteradas:"
-          echo "${{ steps.determine-folders.outputs.changed-folders }}"
+          module=$(cat module.txt)
+          if [ -n "$module" ]; then
+            python -m unittest $module.tests
+          else
+            echo "No module changes detected."
+          fi
