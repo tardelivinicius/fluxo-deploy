@@ -6,6 +6,9 @@ on:
     branches:
       - staging
     types: [opened, synchronize]
+  check_suite:
+    types:
+      - completed
 
 jobs:
   test-and-merge:
@@ -33,8 +36,8 @@ jobs:
       - name: Syntax check
         run: flake8 --exclude=migrations .
 
-      - name: Merge em staging
-        uses: ridedott/merge-me-action@v2
-        if: success()
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: automerge
+        id: automerge
+        uses: "pascalgn/automerge-action@v0.16.2"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
