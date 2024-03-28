@@ -1,15 +1,39 @@
-name: Meu Workflow Agendado
+name: Testes e Migração para Nova Branch
 
 on:
   schedule:
-    - cron: '32 23 * * 3' # Executa toda sexta-feira ao meio-dia
+    - cron: '40 23 * * 3'
 
 jobs:
-  build:
+  testes-e-migracao:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verificar código
-        run: echo "Verificando código..."
+      - name: Checar código
+        uses: actions/checkout@v4
 
-      # Adicione outras etapas do seu workflow aqui
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'  # Especifique a versão do Python que você está usando
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt  # Substitua requirements.txt pelo arquivo de requisitos do seu projeto
+
+      # - name: Executar testes Python
+      #   run: python run_tests.py  # Substitua run_tests.py pelo script que executa seus testes Python
+
+      - name: Criar nova branch
+        run: |
+          git checkout -b qa-$(date +'%Y-%m-%d')
+          git push origin qa-$(date +'%Y-%m-%d')
+
+      - name: Criar Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: 'Merge staging into nova-branch'
+          title: 'Merge staging into nova-branch'
+          body: 'Automatically created pull request to merge staging into nova-branch'
+          branch: qa-$(date +'%Y-%m-%d')
+          base: staging
+          token: ${{ secrets.GITHUB_TOKEN }}
