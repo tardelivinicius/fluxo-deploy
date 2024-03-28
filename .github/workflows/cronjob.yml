@@ -2,7 +2,7 @@ name: Staging test and merge
 
 on:
   schedule:
-    - cron: '52 19 * * *'
+    - cron: '18 20 * * *'
 
 jobs:
   testes-e-migracao:
@@ -29,11 +29,8 @@ jobs:
       - name: Criar nova branch
         id: create_branch
         run: |
-          git checkout staging
-          git checkout -b qa-$(date +'%Y%m%d')
+          git checkout -b qa-$(date +'%Y%m%d') staging
           git push origin qa-$(date +'%Y%m%d')
-          BRANCH_NAME="qa-$(date +'%Y%m%d')"
-          echo "::set-output name=branch_name::$BRANCH_NAME"
           
       # - name: Deploy
       #   run: | 
