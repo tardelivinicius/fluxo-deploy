@@ -2,6 +2,9 @@ name: Review PR and Staging merge
 
 # Ao abrir uma PR, o código será testado e caso estiver correto, será feito o merge automático na branch staging
 on:
+  workflow_run:
+      types:
+        - completed
   pull_request:
     branches:
       - staging
@@ -26,26 +29,15 @@ jobs:
           pip install pipenv
 
       - name: Install dependencies
-        run: pipenv install
-
-      - name: List changed files
         run: |
-          git diff --name-only HEAD ${{ github.sha }} > changed_files.txt
-          cat changed_files.txt
-        id: list-files
+          pipenv install
+          pip install flake8
 
-      - name: Determine module
-        id: determine-module
-        run: |
-          changed_files=$(cat changed_files.txt)
-          module=$(echo $changed_files | grep -oP '(\w+)/\w+')
-          echo $module > module.txt
+      - name: Syntax check
+        run: flake8 --exclude=migrations .
 
-      - name: Run module tests
-        run: |
-          module=$(cat module.txt)
-          if [ -n "$module" ]; then
-            python -m unittest $module.tests
-          else
-            echo "No module changes detected."
-          fi
+      - name: Merge em staging
+        uses: ridedott/merge-me-action@v2
+        if: success()
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
