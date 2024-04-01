@@ -1,0 +1,40 @@
+name: Staging test and merge
+
+on:
+  schedule:
+    - cron: '40 23 * * *'
+
+jobs:
+  testes-e-migracao:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Setar Staging
+        run: |
+          git fetch origin staging:staging
+          git checkout staging
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+        
+      - name: Executar testes Python
+        run: |
+          docker pull mariadb:10.4
+          docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
+          python manage.py test --keepdb -v=2
+
+      - name: Criar nova branch
+        id: create_branch
+        run: |
+          git checkout -b qa-$(date +'%Y%m%d')
+          git push origin qa-$(date +'%Y%m%d')
+          BRANCH_NAME="qa-$(date +'%Y%m%d')"
+          echo "::set-output name=branch_name::$BRANCH_NAME"
