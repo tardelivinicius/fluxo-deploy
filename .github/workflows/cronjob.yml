@@ -2,7 +2,7 @@ name: Staging test and merge
 
 on:
   schedule:
-    - cron: '42 20 * * *'
+    - cron: '30 22 * * *'
 
 jobs:
   testes-e-migracao:
@@ -19,6 +19,11 @@ jobs:
 
       - name: Instalar dependências
         run: pip install -r requirements.txt
+
+      - name: Testar Staging
+        run: |
+          git fetch origin staging:staging
+          git checkout staging
 
       - name: Executar testes Python
         run: |
