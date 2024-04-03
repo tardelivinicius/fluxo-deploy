@@ -82,17 +82,17 @@ WSGI_APPLICATION = "core.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#         'TEST': {'NAME': 'test_docker'},
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#             'charset': "utf8mb4"
-#         },
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+        'TEST': {'NAME': 'test_docker'},
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': "utf8mb4"
+        },
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -110,22 +110,6 @@ WSGI_APPLICATION = "core.wsgi.application"
 #         },
 #     },
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'mariadb_mock',
-        'PORT': '3307',
-        'NAME': 'test_example',
-        'TEST': {'NAME': 'test_docker'},
-        'USER': 'root',
-        'PASSWORD': 'password',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': "utf8mb4"
-        },
-    }
-}
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

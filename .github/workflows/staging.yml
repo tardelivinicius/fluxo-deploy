@@ -10,7 +10,7 @@ on:
 jobs:
   test-and-merge:
     runs-on: ubuntu-latest
-  
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -20,10 +20,6 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Start services with Docker Compose
-        run: |
-          sudo docker-compose -f ./docker-compose.yml up -d
-
       - name: Instalar dependências
         run: |
           pip install pipenv
@@ -32,9 +28,9 @@ jobs:
  
       - name: Executar testes
         run: |
-          # docker pull mariadb:10.4
-          # docker run --rm --name mariadbtest --volume /etc/mysql:/config -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
-          # docker ps
+          docker pull mariadb:10.4
+          docker run --rm --name mariadbtest --volume /etc/mysql:/config -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
+          docker ps
           pipenv run python manage.py test -v=2
 
       - name: Syntax check
