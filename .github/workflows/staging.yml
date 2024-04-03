@@ -28,10 +28,9 @@ jobs:
  
       - name: Executar testes
         run: |
-          docker images
-          docker ps
           docker pull mariadb:10.4
           docker run --rm --name mariadbtest --volume /etc/mysql:/config -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
+          docker ps
           pipenv run python manage.py test -v=2
 
       - name: Syntax check
