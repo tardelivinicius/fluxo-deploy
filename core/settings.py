@@ -94,21 +94,37 @@ WSGI_APPLICATION = "core.wsgi.application"
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'CONN_MAX_AGE': 0,
+#         'NAME': 'test_example',
+#         'TEST': {'NAME': 'test_docker'},
+#         'USER': 'root',
+#         'PASSWORD': 'password',
+#         'HOST': '0.0.0.0',
+#         'PORT': '3307',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             'charset': "utf8mb4"
+#         },
+#     },
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'CONN_MAX_AGE': 0,
+        'HOST': 'mariadb_mock',
+        'PORT': '3307',
         'NAME': 'test_example',
         'TEST': {'NAME': 'test_docker'},
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': 'mariadbtest',
-        'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': "utf8mb4"
         },
-    },
+    }
 }
 
 REST_FRAMEWORK = {
