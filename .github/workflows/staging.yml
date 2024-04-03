@@ -25,10 +25,17 @@ jobs:
           sudo apt-get install libpq-dev -y
           pip install pipenv
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: |
+          pip install pipenv
           pipenv install
-          pip install flake8
+          pipenv install mysqlclient 
+ 
+      - name: Executar testes
+        run: |
+          docker pull mariadb:10.4
+          docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=password -p 3307:3306 -d docker.io/library/mariadb:10.4
+          pipenv run python manage.py test -v=2
 
       - name: Syntax check
         run: flake8 --exclude=migrations .
