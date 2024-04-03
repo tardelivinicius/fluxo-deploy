@@ -86,6 +86,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
 #         "NAME": BASE_DIR / "db.sqlite3",
+#         'TEST': {'NAME': 'test_docker'},
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             'charset': "utf8mb4"
+#         },
 #     }
 # }
 
@@ -97,8 +102,8 @@ DATABASES = {
         'TEST': {'NAME': 'test_docker'},
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3307',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': "utf8mb4"
