@@ -97,7 +97,7 @@ DATABASES = {
         'TEST': {'NAME': 'test_docker'},
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
