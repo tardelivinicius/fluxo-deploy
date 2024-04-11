@@ -9,26 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        id: setup-python
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Instalar pipenv
-        run: pip install pipenv
-
-      - name: Install dependencies
-        run: pipenv install
-
-      - uses: actions/cache@v3
-        id: cache
-        with:
-          path: ~/.local/share/virtualenvs
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
+          cache: 'pipenv'
+        
+      - name: Install pipenv
+        run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
+        
+      - run: pipenv install
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
