@@ -14,22 +14,21 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: '3.10'
 
       - name: Instalar pipenv
         run: pip install pipenv
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pipenv
-          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pipenv-
-
       - name: Install dependencies
         run: pipenv install
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: ~/.local/share/virtualenvs
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
@@ -48,12 +47,11 @@ jobs:
           name: python-app
           path: .
 
-      - name: Restore cache
-        uses: actions/cache@v2
+      - uses: actions/cache/restore@v3
         with:
-          path: ~/.cache/pipenv
+          path: ~/.local/share/virtualenvs
           key: ${{ runner.os }}-pipenv-${{ hashFiles('Pipfile.lock') }}
-
+          
       - name: Run Pipenv command
         run: |
           pipenv run python manage.py migrate
