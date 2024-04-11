@@ -3,7 +3,7 @@ name: Deploy to AWS Lambdas - Development
 on:
   push:
     branches:
-      - pipeline
+      - staging
 
 jobs:
   build:
