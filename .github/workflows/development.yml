@@ -1,3 +1,10 @@
+name: Deploy to AWS Lambdas - Development
+
+on:
+  push:
+    branches:
+      - pipeline
+
 jobs:
   build:
     runs-on: ubuntu-latest
