@@ -18,8 +18,8 @@ jobs:
         
       - name: Install pipenv
         run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
-        
-      - run: pipenv install
+
+      - run: pipenv install -r requirements.txt
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
