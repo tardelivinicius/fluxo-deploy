@@ -1,3 +1,77 @@
-django
+# Framework principal
+# Django>=3.1.4,<3.2.0
+# Django>=3.2.0,<3.3.0
+Django>=4.1.2,<4.2.0
+# Framework para API REST
 djangorestframework
-django-cors-headers
+# Manipulador do Framework serverless para arquivos.
+django-storages>=1.13.1,<1.14.0
+# Biblioteca de autenticação OAuth2
+django-oauth-toolkit
+# Controlador de CORS
+django-cors-headers>=3.13.0,<3.14.0
+# Filtros para a API REST
+# django-filter>=2.4.0,<2.5.0
+django-filter
+# Controlador de Erros
+sentry-sdk
+# Google FCM (Mensagens)
+fcm-django
+# Conector Banco de Dados
+mysqlclient>=2.1.0,<2.2.0
+# Manipulador de Imagens Python
+# Pillow==8.2.0
+Pillow
+# Manipulador de Excel
+openpyxl>=3.0.0,<3.1.0
+# Convertsor de PDF para Imagens
+cloudconvert>=2.0.0,<2.1.0
+# Lê metadados de PDF
+pikepdf
+# Google
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-cloud-core
+google-cloud-firestore
+google-cloud-storage
+google-resumable-media
+googleapis-common-protos
+grpcio
+# Firebase
+firebase-admin
+# Biblioteca de manipulação de Calendário
+icalendar>=4.0.0,<4.1.0
+# JWT Converter
+pyjwt
+# Gerador de Slug's
+python-slugify>=4.0.0,<4.1.0
+# #################################
+# Amazon Only Extensions
+# Cliente para operações Amazon AWS
+# Manipulador Python Amazon Aws
+botocore
+boto3
+# Deployer Amazon AWS (Possui uma versão mais recente, porém está com problemas MySQL)
+zappa
+# Dependência Zappa
+python-dateutil
+# Dependência do zappa
+# #################################
+# Azure Only Extensions
+# azure-functions
+# azf-wsgi
+# azure-storage
+# django-storages[azure]
+# azure-storage-blob>=2.1.0,<2.2.0
+# #################################
+# Bibliotecas para desenvolvedores
+# Teste Profiller
+django-debug-toolbar
+# sftpclient
+# pysftp
+unidecode
+protobuf >3.19,<=3.19.5
+django_flatpickr
+flake8
